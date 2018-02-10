@@ -1,0 +1,75 @@
+<!-- REVIEW SELECTION AND Confirm Rent-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Confirm Rent</title>
+  <link rel="stylesheet" href="main.css">
+  <script src="./main.js"></script>
+</head>
+<body>
+
+  <ul id="contents">
+  <li><a href="index.html">Home</a></li>
+  <li><a href="index1.html">List a Vehicle</a></li>
+  <li><a href="index2.html">Rent a Vehicle</a></li>
+  <li style="float:right"><a href="index6.html">About Project</a></li>
+</ul>
+<h3>Your Ethereum Wallet Balance is £0.01</h3>
+  <div class="row  margin-top">
+  <div class="welcome">
+    <div class="container max-width-960">
+    <h1>Select a Vechile</h1>
+    </div>
+  </div>
+
+  <div class="container max-width-960 text-center">
+      <form>
+        <div class="input-group col-md-3 center-block">
+          <input type="text" name="search" id="search-location" class="form-control" placeholder="Search by Location">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="App.searchObjByName()">SearchByName</button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+
+  <div id="vechile-info">
+    <div class="panel panel-default" >
+      <div class="panel-heading">
+        <h3 class= "panel-title">Rent Info</h3>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item"><strong>ID:</strong> <span id="objID"></span></li>
+          <br></br>
+          <li class="list-group-item"><strong>Owner:</strong> <span id="objName"></span></li>
+          <br></br>
+          <li class="list-group-item"><strong>Make:</strong> <span id="objCreator"></span></li>
+          <br></br>
+          <li class="list-group-item"><strong>Model:</strong> <span id="objPriceDaily"></span></li>
+          <br></br>
+          <li class="list-group-item"><strong>Deposit:</strong> <span id="objDeposit"></span></li>
+          <br></br>
+          <li class="list-group-item"><strong>Location:</strong> <span id="objRenterSince"></span></li>
+          <br></br>
+          <li class="list-group-item"><strong>Mininum Rental Day:</strong> <span id="objDetail"></span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row" >
+  <div class="container max-width-960 " id="objects"><hr></div>
+</div>
+<button class="button2" type="button" onclick="App.rentObj()" id="rentButton">Rent</button>
+
+
+
+
+</body>
+</html>

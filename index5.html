@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Confirm Rent</title>
+  <link rel="stylesheet" href="./css/main.css">
+  <script src="./js/app.js"></script>
+</head>
+<body>
+
+  <ul id="contents">
+  <li><a href="index.html">Home</a></li>
+  <li><a href="index1.html">List a Vehicle</a></li>
+  <li><a href="index2.html">Rent a Vehicle</a></li>
+  <li style="float:right"><a href="index6.html">About Project</a></li>
+</ul>
+<h3>Your Ethereum Wallet Balance is £0.01</h3>
+  <div class="row  margin-top">
+  <div class="welcome">
+    <div class="container max-width-960">
+    <h1>Confirm Payment</h1>
+    <h2>Your rental details are below: </h2>
+    </div>
+  </div>
+  <div class="Rent-a-Vechile">
+	  <form>
+		<form action="/action_page.php">
+		    <label for="make">Make</label>
+		    <input type="text" id="make" name="make">
+
+		    <label for="model">Model</label>
+		    <input type="text" id="model" name="model">
+
+			  <label for="pricePerDay">Price per Day</label>
+		    <input type="text" id="pricePerDay" name="pricePerDay">
+
+				<label for="deposit">Deposit</label>
+		    <input type="text" id="deposit" name="deposit">
+
+				<label for="minRentalDay">Minimum Rental Day</label>
+		    <input type="number" id="minRentalDay" name="minRentalDay">
+
+		    <label for="maxRentalDay">Maximum Rental Day</label>
+		    <input type="text" id="maxRentalDay" name="maxRentalDay">
+
+
+		    <input type="confirm-payment" value="Confirm Payment">
+		  </form>
+
+</body>
+</html>

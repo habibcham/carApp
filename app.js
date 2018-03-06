@@ -25,7 +25,7 @@ var accounts;
 var account;
 var account1;
 
-indow.App = {
+window.App = {
   start: function() {
     var self = this;
 

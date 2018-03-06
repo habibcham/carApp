@@ -33,7 +33,7 @@ uint public charge;
  uint public rentalStartDate  ;
  uint public rentalEndDate  ;
  //uint public constant totalDays = 7 ;
-
+ 
 struct NameKey{ // storage the name's keys
 		uint[] keys;
 }
@@ -46,7 +46,7 @@ mapping(string => NameKey) private nameToKeys;
 
 //Events
 event E_addCar(uint objID, address VechileOwner);
-event E_Rent(address indexed _renter, uint _rentalDate, uint _returnDate, uint _rentalPrice);
+event E_Rent(address indexed _renter, uint _rentalPrice);
 event E_ReturnRental(address indexed _renter, uint _returnDate);
 
 //Modifiers
@@ -86,7 +86,7 @@ function rentCar() public{
 
 
 function addCar(string make, string model, uint pricePerDay, uint minRentalDay, uint maxRentalDay, bool available, uint deposit) public onlyOwner{
-
+    
 
     Car storage newCar = cars[numofCars];
     ///nameToKeys[name].keys.push(numofCars); //add the key to the name's keys
@@ -104,9 +104,26 @@ function addCar(string make, string model, uint pricePerDay, uint minRentalDay, 
   ids.push(numofCars);
   numofCars++;
 
-
-
   }
+
+function deleteCar(uint objID) public onlyOwner{
+
+          delete cars[objID].VechileOwner;
+          delete cars[objID].make;
+          delete cars[objID].model;
+          delete cars[objID].available;
+          delete cars[objID].pricePerDay;
+          delete cars[objID].minRentalDay;
+          delete cars[objID].maxRentalDay;
+          delete cars[objID].deposit;
+          delete cars[objID].VechileOwner;
+
+
+  //NewCar(numofCars,msg.sender);
+  //ids.pop(numofCars);
+  numofCars--;
+  }
+
 
   function setAvailable(uint objID, bool _available) public onlyOwner returns(bool) {
     cars[objID].available = _available;
@@ -129,30 +146,29 @@ function isAvailable(uint objID) objectInRange(objID) public view returns (bool)
   function Rent(uint objID) objectInRange(objID) public payable  whenNotRented returns(bool){
    uint totalDays = 7 ;
 	require (isAvailable(objID));
-	require	(msg.sender == cars[objID].VechileOwner);
+	require	(msg.sender != cars[objID].VechileOwner);
     require (msg.value < cars[objID].deposit);
     require(totalDays >= cars[objID].minRentalDay && totalDays <= cars[objID].maxRentalDay);
 
 
     cars[objID].renter = Renter({addr:msg.sender, currentRenting:now});
     renter = msg.sender;
-
+    
     uint PayDeposit = msg.value - cars[objID].deposit;
     rentalPrice = totalDays *  cars[objID].pricePerDay;
-    rentalDate = rentalStartDate;
-    returnDate = rentalEndDate;
-
+ 
+    
     require(!cars[objID].renter.addr.send(PayDeposit));
 /*	if(!cars[objID].renter.addr.send(PayDeposit)){   // return the rest balance
 			throw;
 		}*/
-
+		
     cars[objID].available = false;
     rented = true;
 
     //renter.call(accessCar());
-
-    E_Rent(msg.sender, rentalDate, returnDate, rentalPrice);
+    
+    E_Rent(msg.sender, rentalPrice);
 
     return true;
   }
@@ -165,7 +181,7 @@ function isAvailable(uint objID) objectInRange(objID) public view returns (bool)
 
     require(!cars[objID].VechileOwner.send(totalPayment));
 	require(!cars[objID].renter.addr.send(totalPayment));
-
+	
 		delete cars[objID].renter;
 		cars[objID].available = false;
 
@@ -187,7 +203,7 @@ function forceRentalEnd(uint objID) public onlyOwner{
       returnDate = 0;
   }
 
-
+ 
   function rentalDaysRemaining() public view whenRented returns (uint){
       return (returnDate - now);
   }
@@ -208,15 +224,15 @@ function forceRentalEnd(uint objID) public onlyOwner{
 function getMake(uint objID) public constant  returns(string){
 		return cars[objID].make;
 	}
-
-
+	
+	
 	function getModel(uint objID) public constant  returns(string){
 		return cars[objID].model;
 	}
 function getMin(uint objID) public constant  returns(uint){
 		return cars[objID].minRentalDay;
 	}
-
+	
 	function getMax(uint objID) public constant  returns(uint){
 		return cars[objID].maxRentalDay;
 	}
@@ -244,20 +260,20 @@ contract  Car is rentCar {
   string public make;
   string public model;
   Renter public renter;
-
+  
   bool public available;
   uint public pricePerDay;
   uint public deposit;
   uint public entrycode;
   uint public minRentalDay;
   uint public maxRentalDay;
+  
 
-
-
+  
    function checkAvailability() public view returns (bool) {
         return(cars[objID].available);
     }
-
+  
   function setCar(string _make, string _model, uint _pricePerDay, uint _minRentalDay, uint _maxRentalDay, bool _available) public onlyOwner{
     make = _make;
     model = _model;
@@ -265,8 +281,8 @@ contract  Car is rentCar {
     minRentalDay = _minRentalDay;
     maxRentalDay = _maxRentalDay;
     available = _available;
-  }
- */
+  }  
+ */ 
   function accessCar() public view  onlyRenter returns(uint){
       uint accessNumber;
       accessNumber = uint(block.blockhash(block.number-1))%100000 + 1;
